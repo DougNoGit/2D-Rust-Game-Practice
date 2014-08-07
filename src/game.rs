@@ -26,8 +26,9 @@ use graphics::
     RelativeTransform2d
 };
 
-static mut x : f64 = 100.0;
-static mut y : f64 = 0.0;
+static mut x : f64 = -275.0;
+static mut y : f64 = 275.0;
+static mut printedAlready : bool = false;
 
 pub struct App
 {
@@ -57,6 +58,17 @@ impl Game for App
     fn update(&mut self, args: &UpdateArgs) 
     {
         self.rotation += 0.0 * args.dt; // Change this value to a non-zero number to make the sprite rotate.
+        unsafe
+        {
+            if x >= 275.0
+            {
+                if printedAlready == false
+                {
+                    println!("YOLO"); // This is to establish that the player has reached the opposite side of the box.
+                    printedAlready = true;
+                }
+            }
+        }
     }
 
     fn key_press(&mut self, _args: &KeyPressArgs)
@@ -99,7 +111,7 @@ fn main()
         GameWindowSettings
         {
             title: "YOLO".to_string(),
-            size: [800, 800],
+            size: [600, 600],
             fullscreen: false,
             exit_on_esc: true
         }
