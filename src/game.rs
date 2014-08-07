@@ -43,17 +43,54 @@ impl Game for App
         let context = &Context::abs(args.width as f64, args.height as f64);
         context.rgba(0.0,0.0,0.1,0.1).draw(&mut self.gl);
 
-        unsafe
+        context
+            //draw goal zone
+            .trans((args.width / 2) as f64, (args.height / 2) as f64)
+            .rect(275.0, -175.0, 50.0, 50.0)
+            .rgba(0.0, 1.0, 1.0, 1.0)
+            .trans(-25.0, -25.0)
+            .draw(&mut self.gl);
+        context
+            //draw goal zone upper bound outline
+            .trans((args.width / 2) as f64, (args.height / 2) as f64)
+            .rect(275.0, -225.0, 50.0, 50.0)
+            .rgba(1.0, 0.1, 0.1, 1.0)
+            .trans(-25.0, -25.0)
+            .draw(&mut self.gl);
+        context
+            //draw goal zone lower bound outline
+            .trans((args.width / 2) as f64, (args.height / 2) as f64)
+            .rect(275.0, -125.0, 50.0, 50.0)
+            .rgba(1.0, 0.1, 0.1, 1.0)
+            .trans(-25.0, -25.0)
+            .draw(&mut self.gl);
+        context
+            //draw goal zone upper bound
+            .trans((args.width / 2) as f64, (args.height / 2) as f64)
+            .rect(280.0, -220.0, 40.0, 40.0)
+            .rgba(0.0, 1.0, 0.5, 1.0)
+            .trans(-25.0, -25.0)
+            .draw(&mut self.gl);
+        context
+            //draw goal zone lower bound
+            .trans((args.width / 2) as f64, (args.height / 2) as f64)
+            .rect(280.0, -120.0, 40.0, 40.0)
+            .rgba(0.0, 1.0, 0.5, 1.0)
+            .trans(-25.0, -25.0)
+            .draw(&mut self.gl);
+     unsafe
         {
         context
+            //draw player sprite
             .trans((args.width / 2) as f64, (args.height / 2) as f64)
             .rot_rad(self.rotation)
             .rect(x, y, 50.0, 50.0)
             .rgba(0.0, 0.5, 1.0, 1.0)
             .trans(-25.0, -25.0)
             .draw(&mut self.gl)
-        }
+       }
     }
+
 
     fn update(&mut self, args: &UpdateArgs) 
     {
@@ -62,29 +99,61 @@ impl Game for App
         {
             if x >= 275.0
             {
-                if printedAlready == false
+                if y == -175.0
                 {
-                    println!("YOLO"); // This is to establish that the player has reached the opposite side of the box.
-                    printedAlready = true;
+                    if printedAlready == false
+                    {
+                            println!("YOLO"); // This is to establish that the player has reached the opposite side of the box.
+                            printedAlready = true;
+                    }
                 }
             }
         }
+/*       unsafe
+       {
+           println!("current x value is {}, current y value is {}", x,y); //This code is for debugging.
+       }
+*/       
     }
 
-    fn key_press(&mut self, _args: &KeyPressArgs)
+    fn key_press(&mut self, _args: &KeyPressArgs) // These conditions involving x and y make the goalposts "solid," so the player cannot go through them.
     {
         if _args.key == keyboard::Up
         {
             unsafe
             {
-                y -= 10.0;
+                if x > 225.0
+                {
+                    if y > -75.0 
+                    {
+                        y -= 10.0;
+                    }
+                    if y <= -275.0
+                    {
+                        y -= 10.0;
+                    }
+                }
+                if x <= 225.0
+                {
+                    y -= 10.0;
+                }
             }
         }
         if _args.key == keyboard::Down
         {
             unsafe
             {
-                y += 10.0;
+                if x > 225.0
+                {
+                    if y >= -75.0
+                    {
+                        y += 10.0;
+                    }
+                }
+                if x <= 225.0
+                {
+                    y += 10.0;
+                }
             }
         }
         if _args.key == keyboard::Left
@@ -98,11 +167,31 @@ impl Game for App
         {
             unsafe
             {
-                x += 10.0;
+                if x < 275.0
+                {
+                    if x >= 225.0
+                    {
+                        if y <= -275.0
+                        {
+                            x += 10.0;
+                        }
+                        if y >= -75.0
+                        {
+                            x += 10.0;
+                        }
+                        if y == -175.0
+                        {
+                            x += 10.0;
+                        }
+                    }   
+                    if x < 225.0
+                    {
+                        x += 10.0;
+                    }
+                }
             }
         }
     }
-
 }
 
 fn main()
