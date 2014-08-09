@@ -5,6 +5,7 @@ extern crate opengl_graphics;
 
 use sdl2_game_window::GameWindowSDL2;
 use opengl_graphics::Gl;
+use std::io::timer;
 
 use piston::
 {
@@ -108,6 +109,10 @@ impl Game for App
                     }
                 }
             }
+            if x < 275.0
+            {
+                printedAlready = false; // this allows the player to win multiple times
+            }
         }
 /*       unsafe
        {
@@ -164,7 +169,9 @@ impl Game for App
         {
             unsafe
             {
+//                println!("LEEEEEEEEEEEEEEROYYYYYYYYYYYYY JENKIIIIIIIIIIIIIIIIIINS");
                 x -= 10.0;
+//                timer::sleep(1000);
             }
         }
         if _args.key == keyboard::Right
