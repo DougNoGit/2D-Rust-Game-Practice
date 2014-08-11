@@ -48,7 +48,7 @@ impl Game for App
             //draw goal zone
             .trans((args.width / 2) as f64, (args.height / 2) as f64)
             .rect(275.0, -175.0, 50.0, 50.0)
-            .rgba(0.0, 1.0, 1.0, 1.0)
+            .rgba(0.0, 1.0, 1.0, 1.0) // TODO try to implement hex codes for coloring
             .trans(-25.0, -25.0)
             .draw(&mut self.gl);
         context
