@@ -1,24 +1,35 @@
 extern crate graphics;
 extern crate piston;
-extern crate sdl2_game_window;
+extern crate sdl2_window;
 extern crate opengl_graphics;
+extern crate input;
+extern crate event;
 
-use sdl2_game_window::GameWindowSDL2;
+use sdl2_window::Sdl2Window;
 use opengl_graphics::Gl;
 use std::io::timer;
 
-use piston::
+use piston:: 
 {
-    Game,
-    GameWindowSettings,
-    GameIteratorSettings,
+    WindowSettings,
     RenderArgs,
-    UpdateArgs,
-    keyboard,
-    KeyPressArgs
+    UpdateArgs
 };
 
-use graphics::
+use input:: 
+{
+    keyboard,
+    Press
+};
+
+use event:: 
+{
+    // I think this is the new EventIterator
+    Events,
+    Window
+};
+
+use graphics:: 
 {
     Context,
     AddRectangle,
@@ -37,7 +48,7 @@ pub struct App
     rotation: f64
 }
 
-impl Game for App
+impl App
 {
     fn render(&mut self, args: &RenderArgs)
     {
@@ -114,11 +125,12 @@ impl Game for App
                 printedAlready = false; // this allows the player to win multiple times
             }
         }
-/*       unsafe
-       {
+    /* 
+        unsafe
+        {
            println!("current x value is {}, current y value is {}", x,y); //This code is for debugging.
-       }
-*/       
+        }
+    */       
     }
 
     fn key_press(&mut self, _args: &KeyPressArgs) // These conditions involving x and y make the goalposts "solid," so the player cannot go through them.
@@ -207,22 +219,23 @@ impl Game for App
 
 fn main()
 {
-    let mut window = GameWindowSDL2::new(
-        GameWindowSettings
+    let mut window = Sdl2Window::new(
+        WindowSettings
         {
             title: "YOLO".to_string(),
             size: [600, 600],
             fullscreen: false,
             exit_on_esc: true
         }
-);
+    );
 
-let game_iter_settings = GameIteratorSettings
-{
-    updates_per_second: 60,
-    max_frames_per_second: 60
-};
+    let game_iter_settings = GameIteratorSettings
+    {
+        updates_per_second: 60,
+        max_frames_per_second: 60
+    };
 
-let mut app = App { gl: Gl::new(), rotation: 0.0 };
-app.run(&mut window, &game_iter_settings);
+    let mut app = App { gl: Gl::new(), rotation: 0.0 };
+    
+    app.run(&mut window, &game_iter_settings);
 }
