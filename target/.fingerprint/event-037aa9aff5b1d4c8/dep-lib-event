@@ -1,0 +1,2 @@
+/home/septimius/Dropbox/mike/programming/github/2D-Rust-Game-Practice/target/deps/libevent-037aa9aff5b1d4c8.rlib: src/lib.rs src/ptr.rs src/drag_controller.rs src/window.rs src/events.rs src/generic_event.rs src/update.rs src/render.rs src/event.rs src/press.rs src/release.rs src/mouse.rs src/text.rs src/resize.rs src/focus.rs
+
